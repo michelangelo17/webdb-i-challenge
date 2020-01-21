@@ -10,7 +10,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    res.status(200).json(
+    res.json(
       await db('accounts')
         .limit(req.query.limit)
         .orderBy(req.query.sortby || 'id', req.query.sortdir)
@@ -22,7 +22,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', valId(db), async (req, res, next) => {
   try {
-    res.status(200).json(
+    res.json(
       await db('accounts')
         .where('id', req.params.id)
         .first()
@@ -53,7 +53,7 @@ router.put('/:id', valId(db), valAccountsPut, async (req, res, next) => {
     await db('accounts')
       .where('id', req.params.id)
       .update({ ...req.body })
-    res.status(200).json(
+    res.json(
       await db('accounts')
         .where('id', req.params.id)
         .first()
@@ -68,7 +68,7 @@ router.delete('/:id', valId(db), async (req, res, next) => {
     await db('accounts')
       .where('id', req.params.id)
       .del()
-    res.status(200).json(await db('accounts'))
+    res.json(await db('accounts'))
   } catch (e) {
     next(e)
   }
