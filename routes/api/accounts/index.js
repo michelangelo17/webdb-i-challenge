@@ -5,12 +5,16 @@ const {
   valId,
   valAccountsPut,
 } = require('../../../middleware')
+
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    console.log(req.query)
-    res.status(200).json(await db('accounts'))
+    res.status(200).json(
+      await db('accounts')
+        .limit(req.query.limit)
+        .orderBy(req.query.sortby || 'id', req.query.sortdir)
+    )
   } catch (e) {
     next(e)
   }
